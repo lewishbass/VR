@@ -28,7 +28,7 @@ endif()
 add_executable(VRTestProj main.cpp)
 
 add_custom_target(BuildMessage
-    COMMAND ${CMAKE_COMMAND} -E echo "Starting build for VRTestProj on platform: ${PLATFORM_FORK}"
+    COMMAND ${CMAKE_COMMAND} -E echo "Starting build for VRTestProj on platform: ${PLATFORM_FORK} Config: $<CONFIG>"
     COMMENT "Build started"
 )
 

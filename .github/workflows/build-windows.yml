@@ -14,20 +14,15 @@ jobs:
       uses: actions/checkout@v4
         
     - name: setup vcpkg
-      uses: lukka/get-vcpkg@master
+      uses: lukka/run-vcpkg@v11        
+      
+    - name: Run cmake
+      uses: lukka/run-cmake@v10
       with:
-        vcpkg_root_path: ${{ github.workspace }}/vcpkg
+        configurePreset: 'ninja-multi-vcpkg'
+        buildPreset: 'ninja-multi-vcpkg'
+        buildPresetAdditionalArgs: "['--config Release']"
         
-      
-    - name: Bootstrap vcpkg
-      run: |
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
-      
-    - name: Install dependencies
-      run: |
-        .\vcpkg\vcpkg install --triplet x64-windows
-
     - name: Check dependencies
       run: |
         .\vcpkg\vcpkg list
