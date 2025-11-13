@@ -1,0 +1,10 @@
+
+# Ignore these file in git
+
+# build directories
+build/
+
+# vcpkg package manager files
+vcpkg_installed/
+vcpkg/
+

@@ -1,0 +1,39 @@
+
+
+name: Windows Build
+
+on:
+  push:
+    branches: [main, develop]
+  
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+      
+
+    - name: Install Vulkan SDK
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
+        .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
+      
+    - name: setup vpkg
+      uses: lukka/get-vcpkg@latest
+      with:
+        vcpkgDirectory: ./vcpkg
+        
+      
+    - name: Install dependencies
+      run: |
+        ./vcpkg/vcpkg install --triplet x64-windows --manifest vcpkg.json
+    
+    - name: Build
+      run: |
+        cmake -B build -S . `
+          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"
+
