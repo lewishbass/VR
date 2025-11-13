@@ -17,10 +17,6 @@ jobs:
       uses: lukka/run-vcpkg@v11        
       with:
         vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
-      
-    - name: Check dependencies
-      run: |
-        .\vcpkg\vcpkg list
         
     - name: Run cmake
       uses: lukka/run-cmake@v10
@@ -29,15 +25,12 @@ jobs:
         buildPreset: 'ninja-multi-vcpkg'
         buildPresetAdditionalArgs: "['--config Release']"
 
+    - name: Check dependencies
+      run: |
+        .\vcpkg\vcpkg list
+      
     - name: Install Vulkan SDK
       run: |
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
         .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
-    
-    
-    - name: Build
-      run: |
-        cmake -B build -S . `
-          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-
