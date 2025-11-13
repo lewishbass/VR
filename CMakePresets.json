@@ -1,0 +1,25 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 1,
+        "patch": 0
+    },
+    "configurePresets": [{
+        "name": "ninja-multi-vcpkg",
+        "displayName": "Ninja Multi-Config with vcpkg",
+        "description": "Configure with Ninja Multi-Config generator and vcpkg",
+        "generator": "Ninja Multi-Config",
+        "binaryDir": "${sourceDir}/build",
+        "cacheVariables": {
+            "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "CMAKE_CXX_STANDARD": "17"
+        }
+    }],
+    "buildPresets": [{
+        "name": "ninja-multi-vcpkg",
+        "displayName": "Build with Ninja Multi-Config",
+        "configurePreset": "ninja-multi-vcpkg",
+        "configuration": "Release"
+    }]
+}

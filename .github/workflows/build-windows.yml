@@ -18,16 +18,16 @@ jobs:
       with:
         vcpkgGitCommitId: '5b1214315250939257ef5d62ecdcbca18cf4fb1c'
       
+    - name: Check dependencies
+      run: |
+        .\vcpkg\vcpkg list
+        
     - name: Run cmake
       uses: lukka/run-cmake@v10
       with:
         configurePreset: 'ninja-multi-vcpkg'
         buildPreset: 'ninja-multi-vcpkg'
         buildPresetAdditionalArgs: "['--config Release']"
-
-    - name: Check dependencies
-      run: |
-        .\vcpkg\vcpkg list
 
     - name: Install Vulkan SDK
       run: |
