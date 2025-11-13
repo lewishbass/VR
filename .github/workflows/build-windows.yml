@@ -12,18 +12,11 @@ jobs:
     steps:
     - name: checkout repository
       uses: actions/checkout@v4
-      
-
-    - name: Install Vulkan SDK
-      run: |
-        $ProgressPreference = 'SilentlyContinue'
-        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
-        .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
-      
+        
     - name: setup vpkg
       uses: lukka/get-vcpkg@master
       with:
-        vcpkg_root_path: ${{ github.workspace }}/vcpkg
+        vpkg_root_path: ${{ github.workspace }}/vcpkg
         
       
     - name: Bootstrap vcpkg
@@ -34,6 +27,17 @@ jobs:
     - name: Install dependencies
       run: |
         .\vcpkg\vcpkg install --triplet x64-windows
+
+    - name: Check dependencies
+      run: |
+        .\vcpkg\vcpkg list
+
+    - name: Install Vulkan SDK
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
+        .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
+    
     
     - name: Build
       run: |
