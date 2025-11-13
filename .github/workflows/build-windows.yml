@@ -23,7 +23,7 @@ jobs:
         .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
       
     - name: setup vpkg
-      uses: lukka/get-vcpkg@latest
+      uses: lukka/get-vcpkg@main
       with:
         vcpkgDirectory: ./vcpkg
         

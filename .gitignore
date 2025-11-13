@@ -8,3 +8,5 @@ build/
 vcpkg_installed/
 vcpkg/
 
+# Visual Studio Code settings
+.vscode/
