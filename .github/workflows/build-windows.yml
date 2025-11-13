@@ -13,10 +13,10 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v4
         
-    - name: setup vpkg
+    - name: setup vcpkg
       uses: lukka/get-vcpkg@master
       with:
-        vpkg_root_path: ${{ github.workspace }}/vcpkg
+        vcpkg_root_path: ${{ github.workspace }}/vcpkg
         
       
     - name: Bootstrap vcpkg
