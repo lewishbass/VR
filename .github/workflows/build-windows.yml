@@ -1,5 +1,3 @@
-
-
 name: Windows Build
 
 on:
@@ -25,15 +23,20 @@ jobs:
     - name: setup vpkg
       uses: lukka/get-vcpkg@master
       with:
-        vcpkgDirectory: ./vcpkg
+        vcpkg_root_path: ${{ github.workspace }}/vcpkg
         
+      
+    - name: Bootstrap vcpkg
+      run: |
+        cd vcpkg
+        .\bootstrap-vcpkg.bat
       
     - name: Install dependencies
       run: |
-        ./vcpkg/vcpkg install --triplet x64-windows --manifest vcpkg.json
+        .\vcpkg\vcpkg install --triplet x64-windows
     
     - name: Build
       run: |
         cmake -B build -S . `
-          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake"
+          -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
