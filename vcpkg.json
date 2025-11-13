@@ -1,7 +1,7 @@
 {
     "name": "vr-test-proj",
     "version": "0.1.0",
-    "vcpkgGitCommitId": "5b1214315250939257ef5d62ecdcbca18cf4fb1c",
+    "vcpkgGitCommitId": "2d6a6cf",
     "dependencies": [
         "sdl2",
         "vulkan",
