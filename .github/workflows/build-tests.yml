@@ -8,7 +8,32 @@ env:
   VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
 
 jobs:
-  
+  build-windows:
+    name: Build on Windows
+    runs-on: windows-latest
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+
+    #- name: Install Vulkan SDK
+    #  run: |
+    #    $ProgressPreference = 'SilentlyContinue'
+    #    Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
+    #    .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
+
+    - name: setup vcpkg
+      uses: lukka/run-vcpkg@v11        
+      with:
+        vcpkgGitCommitId: 'be017f19187ad59d9c4944b42d371c802022881f'
+        runVcpkgInstall: true
+
+    - name: Run cmake
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: 'ninja-multi-vcpkg'
+        buildPreset: 'ninja-multi-vcpkg'
+        buildPresetAdditionalArgs: "['--config Release']"
 
   build-linux:
     name: Build on Linux
@@ -41,6 +66,10 @@ jobs:
           libxinerama-dev \
           libxkbcommon-dev \
           libxxf86vm-dev \
+          autoconf \
+          autoconf-archive \
+          automake \
+          libtool \
           libwayland-dev \
           libwayland-egl1-mesa \
           libgl1-mesa-dev \
