@@ -15,21 +15,17 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v4
 
-    - name: Install Vulkan SDK
-      run: |
-        $ProgressPreference = 'SilentlyContinue'
-        Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
-        .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
+    #- name: Install Vulkan SDK
+    #  run: |
+    #    $ProgressPreference = 'SilentlyContinue'
+    #    Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
+    #    .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
 
     - name: setup vcpkg
       uses: lukka/run-vcpkg@v11        
       with:
         vcpkgGitCommitId: 'be017f19187ad59d9c4944b42d371c802022881f'
         runVcpkgInstall: true
-
-    - name: Check dependencies
-      run: |
-        .\vcpkg\vcpkg list
 
     - name: Run cmake
       uses: lukka/run-cmake@v10
@@ -41,9 +37,37 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
 
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-linux
+
     steps:
     - name: checkout repository
       uses: actions/checkout@v4
+
+    #- name: Install Vulkan SDK
+    #  run: |
+    #    $ProgressPreference = 'SilentlyContinue'
+    #    Invoke-WebRequest -Uri "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe" -OutFile VulkanSDK.exe
+    #    .\VulkanSDK.exe --accept-licenses --default-answer --confirm-command install
+
+    - name: Install system dependencies (X11 / Wayland / OpenGL)
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install --no-install-recommends -y \
+          libx11-dev \
+          libx11-xcb-dev \
+          libxcb1-dev \
+          libxcb-glx0-dev \
+          libxcb-keysyms1-dev \
+          libxcb-xfixes0-dev \
+          libxrandr-dev \
+          libxinerama-dev \
+          libxkbcommon-dev \
+          libwayland-dev \
+          libwayland-egl1-mesa \
+          libgl1-mesa-dev \
+          libglu1-mesa-dev \
+          pkg-config
 
     - name: setup vcpkg
       uses: lukka/run-vcpkg@v11
@@ -62,4 +86,3 @@ jobs:
         buildPreset: 'ninja-multi-vcpkg'
         buildPresetAdditionalArgs: "['--config Release']"
 
-    
