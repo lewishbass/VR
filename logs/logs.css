@@ -1,0 +1,349 @@
+:root {
+    --bg: #f6f7fb; /* overall page background */
+    --card: #ffffff; /* panels and entries */
+    --text: #111827; /* main text */
+    --muted: #6b7280; /* muted text (stats, helper text) */
+    --border: #e6e7eb; /* subtle borders */
+    --primary: #0ea5a4; /* active/primary buttons */
+    --primary-contrast: #ffffff; /* text on primary */
+    --hover: #f2f6f8; /* hover states */
+    --level-1: #ef4444; /* error/severity 1 */
+    --level-2: #f59e0b; /* warning/severity 2 */
+    --level-3: #059669; /* success/severity 4 */
+    --level-4: #3b82f6; /* info/severity 3 */
+    --level-1-muted: color-mix(in srgb, var(--level-1) 50%, black);
+    --level-2-muted: color-mix(in srgb, var(--level-2) 50%, black);
+    --level-3-muted: color-mix(in srgb, var(--level-3) 50%, black);
+    --level-4-muted: color-mix(in srgb, var(--level-4) 50%, black);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    color: #4ec9b0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#filter-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(16, 24, 40, 0.06);
+    padding: 15px 20px;
+}
+
+.filter-section {
+    margin-bottom: 10px;
+}
+
+.filter-section:last-child {
+    margin-bottom: 0;
+}
+
+.filter-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    color: #374151;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+}
+
+.filter-btn:hover {
+    background: var(--hover);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    border-color: color-mix(in srgb, var(--primary) 70%, var(--border));
+    color: var(--primary-contrast);
+}
+
+.log-entry {
+    background: var(--card);
+    margin-bottom: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    box-shadow: 0 1px 3px rgba(17, 24, 39, 0.04);
+    padding: 12px 16px;
+    
+    color: var(--text);
+    transition: all 0.3s ease;
+
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    position: relative; /* added so absolute-positioned copy button sits top-right */
+}
+
+.log-entry:hover {
+    background: #fafcff;
+    border-left: 6px solid transparent;
+}
+
+.log-entry.expanded {
+    cursor: default;
+}
+
+.log-entry.level-1 {
+    border-left-color: var(--level-1);
+}
+
+.log-entry.level-2 {
+    border-left-color: var(--level-2);
+}
+
+.log-entry.level-3 {
+    border-left-color: var(--level-3);
+}
+
+.log-entry.level-4 {
+    border-left-color: var(--level-4);
+}
+
+.log-entry.level-1 .level-tag {
+    color: var(--level-1);
+}
+
+.log-entry.level-2 .level-tag {
+    color: var(--level-2);
+}
+
+.log-entry.level-3 .level-tag {
+    color: var(--level-3);
+}
+
+.log-entry.level-4 .level-tag {
+    color: var(--level-4);
+}
+
+.log-entry.level-1 .message {
+    color: var(--level-1-muted);
+}
+
+.log-entry.level-2 .message {
+    color: var(--level-2-muted);
+}
+
+.log-entry.level-3 .message {
+    color: var(--level-3-muted);
+}
+
+.log-entry.level-4 .message {
+    color: var(--level-4-muted);
+}
+
+.message{
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 88px); /* account for time + level-tag */
+    flex: 1;
+    min-width: 0;
+    max-height: 1.6em; /* limit to single line height */
+    line-height: 1.6em;
+}
+
+.message.expanded {
+    white-space: normal;
+    word-wrap: break-word;
+    max-height: none;
+    overflow: visible;
+}
+
+.log-entry .time {
+    color: var(--muted);
+    font-size: 12px;
+    margin-right: 12px;
+    padding: 5px 0px;
+    flex-shrink: 0;
+}
+
+.log-entry.hidden {
+    display: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+}
+
+.log-entry .level-tag {
+    font-weight: 600;
+    margin-right: 8px;
+    min-width: 60px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.log-entry span {
+    margin-right: 8px;
+}
+
+.log-entry .log-tags {
+    display: none;
+    margin-top: 8px;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-left: 88px;
+    width: 100%;
+    flex-basis: 100%;
+}
+
+.log-entry .log-file-info {
+    display: none;
+    margin-top: 8px;
+    margin-left: 88px;
+    font-size: 12px;
+    color: var(--muted);
+    width: 100%;
+    flex-basis: 100%;
+}
+
+.message.expanded ~ .log-file-info {
+    display: block;
+}
+
+.log-file-info .file-name {
+    color: #9333ea;
+    font-weight: 500;
+}
+
+.log-file-info .line-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.log-file-info .line-link:hover {
+    text-decoration: underline;
+    color: color-mix(in srgb, var(--primary) 80%, black);
+}
+
+.message.expanded ~ .log-tags {
+    display: flex;
+}
+
+.log-tag {
+    background: #eef2f7;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+}
+
+.log-tag.empty {
+    background: transparent;
+    color: var(--muted);
+    border: none;
+}
+
+#clear-filters {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    color: #374151;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+}
+
+#clear-filters:hover {
+    background: var(--hover);
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.stats span {
+    padding: 4px 8px;
+    background: #f2f4f7;
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #f8fafc80; /* same base as other buttons */
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    z-index: 20;
+    box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+    min-width: 80px;
+    justify-content: center;
+}
+
+.copy-btn:hover {
+    background: var(--hover);
+    transform: translateY(-1px);
+}
+
+.copy-btn:active {
+    transform: translateY(0);
+}
+
+.copy-btn.copied {
+    background: var(--primary);
+    color: var(--primary-contrast);
+    border-color: color-mix(in srgb, var(--primary) 70%, var(--border));
+    box-shadow: 0 4px 10px rgba(14, 165, 164, 0.12);
+}
+
+.copy-btn.copied:hover {
+    background: color-mix(in srgb, var(--primary) 85%, black);
+}

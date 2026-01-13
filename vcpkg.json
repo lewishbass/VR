@@ -2,8 +2,14 @@
     "name": "vr-test-proj",
     "version": "0.1.0",
     "dependencies": [
-        "sdl2",
+        {
+            "name": "sdl2",
+            "features": ["vulkan"]
+        },
         "vulkan",
-        "openxr-loader"
+        "openxr-loader",
+        "opengl",
+        "tinyobjloader",
+        "glm"
     ]
 }

@@ -1,6 +1,4 @@
 
-# Ignore these file in git
-
 # build directories
 build/
 
@@ -10,3 +8,16 @@ vcpkg/
 
 # Visual Studio Code settings
 .vscode/
+
+# building scripts
+# bar.bat
+# r.bat
+
+# logs
+logs/*.html
+
+# Demos contains reference projects that should not be tracked
+Demos/
+
+# Slang instillation
+tools/

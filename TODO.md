@@ -53,3 +53,26 @@ cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.c
 cmake --build build --config Release
 ```
 
+## OpenXR integration structure
+
+### Setup
+  - Instance (xrCreateInstance) underlying hardware
+  - System   (xrGetSystem)      physical hardware
+  - Graphics (getGraphicsRequirement) render engine
+             (getInstanceExtensions) 
+             (vkCreateInstance)
+  - Session
+
+  - Reference Spaces
+  - Action Set
+
+### Render Loop
+  - Poll Events
+  - Poll Actions
+
+  - Begin Frame
+  - Acquire Swapchain Images
+  - Render Views
+  - End Frame
+
+foveated rendering can take any sized maps so less time can be spent on specific objects
