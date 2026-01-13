@@ -1,5 +1,11 @@
 
+# This is the start of my custom VR engine
 
+## Design goals
+
+ - seamless multi-platform targeting
+ - optimized particle physics/rendering
+ - automatic distribution
 
 # Multi-platform building / debugging
 
